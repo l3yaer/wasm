@@ -11,7 +11,6 @@ var importObject = {
     }
 };
 
-
 const canvas = document.getElementById("gl_canvas");
 const ctx = canvas.getContext("2d");
 

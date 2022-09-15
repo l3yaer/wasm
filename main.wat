@@ -21,10 +21,21 @@
        (param $b i32)
        (param $t f32)
        (result i32)
-       (i32.trunc_f32_u
-        (f32.add
-         (f32.mul (f32.convert_i32_u (local.get $b)) (local.get $t))
-         (f32.mul (f32.convert_i32_u (local.get $a)) (f32.sub (f32.const 1) (local.get $t))))))
+
+       local.get $b
+       f32.convert_i32_u
+       local.get $t
+       f32.mul
+
+       local.get $a
+       f32.convert_i32_u
+       f32.const 1
+       local.get $t
+       f32.sub
+       f32.mul
+
+       f32.add
+       i32.trunc_f32_u)
 
  (func (export "draw")
        (local $x i32)

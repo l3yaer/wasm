@@ -16,6 +16,35 @@
        f32.convert_i32_u
        f32.div)
 
+ (func $v_length
+       (param $x f32)
+       (param $y f32)
+       (result f32)
+
+       local.get $x
+       local.get $x
+       f32.mul
+
+       local.get $y
+       local.get $y
+       f32.mul
+
+       f32.add
+       f32.sqrt)
+
+ (func $sd_sphere
+       (param $x f32)
+       (param $y f32)
+       (param $r f32)
+       (result f32)
+
+       local.get $x
+       local.get $y
+       call $v_length
+
+       local.get $r
+       f32.sub)
+
  (func $lerp
        (param $a i32)
        (param $b i32)
@@ -36,6 +65,43 @@
 
        f32.add
        i32.trunc_f32_u)
+
+ (func $draw_pixel
+       (param $x f32)
+       (param $y f32)
+       (param $ptr i32)
+
+       ;; Red
+       local.get $ptr
+       i32.const 0xFF
+       i32.const 0x00
+       local.get $y
+       call $lerp
+       i32.store
+
+       ;; Blue
+       local.get $ptr
+       i32.const 1
+       i32.add
+       i32.const 0x00
+       i32.const 0xFF
+       local.get $x
+       call $lerp
+       i32.store
+
+       ;; Green
+       local.get $ptr
+       i32.const 2
+       i32.add
+       i32.const 0xFF
+       i32.store
+
+       ;;Alpha
+       local.get $ptr
+       i32.const 3
+       i32.add
+       i32.const 0xFF
+       i32.store)
 
  (func (export "draw")
        (local $x i32)
@@ -80,37 +146,10 @@
                     i32.ge_s
                     br_if $w_top
 
-                    ;; Red
-                    local.get $index
-                    i32.const 0xFF
-                    i32.const 0x00
+                    local.get $shader_x
                     local.get $shader_y
-                    call $lerp
-                    i32.store
-
-                    ;; Blue
                     local.get $index
-                    i32.const 1
-                    i32.add
-                    i32.const 0x00
-                    i32.const 0xFF
-                    local.get $shader_y
-                    call $lerp
-                    i32.store
-
-                    ;; Green
-                    local.get $index
-                    i32.const 2
-                    i32.add
-                    i32.const 0xFF
-                    i32.store
-
-                    ;;Alpha
-                    local.get $index
-                    i32.const 3
-                    i32.add
-                    i32.const 0xFF
-                    i32.store
+                    call $draw_pixel
 
                     i32.const 1
                     local.get $y

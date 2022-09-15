@@ -1,5 +1,5 @@
-const CANVAS_W = 800;
-const CANVAS_H = 600;
+const CANVAS_W = 500;
+const CANVAS_H = 500;
 const SHARED_MEMORY = new WebAssembly.Memory({initial:64});
 
 var importObject = {

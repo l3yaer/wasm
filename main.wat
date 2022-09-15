@@ -80,16 +80,39 @@
        i32.store
 
        ;; Blue
+       ;; sphere
+       local.get $x
+       f32.const 0.5
+       f32.sub
+       local.get $y
+       f32.const 0.5
+       f32.sub
+       f32.const 0.2
+       call $sd_sphere
+       f32.const 0.1
+       f32.lt
+
+       if
+
+       local.get $ptr
+       i32.const 1
+       i32.add
+       i32.const 0x00
+       i32.store
+
+       else
+
        local.get $ptr
        i32.const 1
        i32.add
        i32.const 0x00
        i32.const 0xFF
-       local.get $x
+       local.get $y
        call $lerp
        i32.store
+       end
 
-       ;; Green
+       ;;Green
        local.get $ptr
        i32.const 2
        i32.add

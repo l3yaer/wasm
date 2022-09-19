@@ -5,6 +5,9 @@ const SHARED_MEMORY = new WebAssembly.Memory({initial:64});
 var importObject = {
     env: {
         print: arg => console.log(arg),
+        atan2: (y, x) => Math.atan2(x, y),
+        sin: x => Math.sin(x),
+        cos: x  => Math.cos(x),
         mem: SHARED_MEMORY,
         canvas_w: CANVAS_W,
         canvas_h: CANVAS_H
